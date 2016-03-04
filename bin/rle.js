@@ -27,12 +27,12 @@ var loadRLE = function(RLEPath, callback) {
 	})
 }
 
-loadRLE(path.resolve(__dirname, '../resources/tracks/wooden-simple.TD4'), function(err, result) {
+loadRLE(path.resolve(__dirname, '../resources/tracks/wooden-simple-elevation.TD6'), function(err, result) {
 	if(err) {
 		return console.error(err);
 	}
 
 	var buffer = new Buffer(result);
 
-	fs.writeFileSync(path.resolve(__dirname, '../temp/wooden-simple.TD4'), buffer, 'binary');
+	fs.writeFileSync(path.resolve(__dirname, '../temp/wooden-simple-elevation.TD6'), buffer, 'binary');
 });
