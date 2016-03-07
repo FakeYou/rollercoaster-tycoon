@@ -5,6 +5,7 @@ var path = require('path');
 var jBinary = require('jBinary');
 
 var RLEFormat = require('../formats/rle');
+var ChecksumFormat = require('../formats/checksum');
 
 var loadRLE = function(RLEPath, callback) {
 	console.log(RLEPath);
@@ -27,12 +28,31 @@ var loadRLE = function(RLEPath, callback) {
 	})
 }
 
-loadRLE(path.resolve(__dirname, '../resources/tracks/wooden-simple-elevation.TD6'), function(err, result) {
+loadRLE(path.resolve(__dirname, '../resources/tracks/wooden-simple-elevation.td6'), function(err, result) {
 	if(err) {
-		return console.error(err);
+		return console.log(err);
 	}
 
-	var buffer = new Buffer(result);
+	// console.log(result.length);
 
-	fs.writeFileSync(path.resolve(__dirname, '../temp/wooden-simple-elevation.TD6'), buffer, 'binary');
+	var jbin = new jBinary(256*256, RLEFormat);
+	jbin.writeAll(result);
+
+	for(var i = jbin.view.buffer.length -1 ; i > 0; i--) {
+		if(jbin.view.buffer[i] !== 0) {
+			break;
+		}
+	}
+
+	i += 2;
+
+	var buffer = new Buffer(i);
+	jbin.view.buffer.copy(buffer, 0, 0, i);
+
+	var checksum = new jBinary(4, ChecksumFormat);
+	checksum.writeAll(buffer);
+
+	console.log(checksum);
+
+	// fs.writeFileSync(path.resolve(__dirname, '../temp/test.td6'), jbin.view.buffer, 'binary');
 });

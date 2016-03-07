@@ -5,6 +5,7 @@ var path = require('path');
 var jBinary = require('jBinary');
 
 var TD6Format = require('../formats/td6');
+var RLEFormat = require('../formats/rle');
 
 var loadTD6 = function(TD6Path, callback) {
 	console.log(TD6Path);
@@ -32,5 +33,6 @@ loadTD6(path.resolve(__dirname, '../temp/wooden-simple-elevation.TD6'), function
 		return console.error(err);
 	}
 
-	console.log(result);
+
+	// console.log(result);
 });

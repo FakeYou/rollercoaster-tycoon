@@ -15,20 +15,15 @@ var config = {
 
 			data.trackType = this.binary.read('uint8');
 
-			// unknown
-			this.binary.skip(1);
+			data._unknown_01 = this.binary.read('uint8');
 
-			// special track pieces flags
-			this.binary.skip(4);
-
+			data.specialTrackFlags = this.binary.read('uint32');
 			data.operatingMode = this.binary.read('uint8');
 
-			// vehicle color scheme
-			this.binary.skip(1);
-			this.binary.skip(32 * 2);
+			data.vehicleColorScheme = this.binary.read('uint8');
+			data.vehicleColors = this.binary.read(['array', 'uint16', 32]);
 
-			// unknown
-			this.binary.skip(1);
+			data._unknown_48 = this.binary.read('uint8');
 
 			data.entranceStyle = this.binary.read('uint8');
 			data.airTime = this.binary.read('uint8');
@@ -51,17 +46,17 @@ var config = {
 			data.intensity = this.binary.read('uint8');
 			data.nausea = this.binary.read('uint8');
 
-			// unknown
-			this.binary.skip(2);
+			data._unknown_5E = this.binary.read('uint8');
+			data._unknown_5F = this.binary.read('uint8');
 
-			// track color scheme
-			this.binary.skip(3 * 4);
+			data.trackColors = this.binary.read(['array', 'uint32', 3]);
 
-			// unknown
-			this.binary.skip(4);
+			data._unknown_6C = this.binary.read('uint8');
+			data._unknown_6D = this.binary.read('uint8');
+			data._unknown_6E = this.binary.read('uint8');
+			data._unknown_6F = this.binary.read('uint8');
 
-			// dat file
-			this.binary.skip(16);
+			data.DATfile = this.binary.read(['array', 'uint8', 16]);
 
 			data.size = {
 				x: this.binary.read('uint8'),
@@ -69,7 +64,7 @@ var config = {
 			};
 
 			// additional vehicle colors
-			this.binary.skip(32);
+			data.vehicleAdditionalColors = this.binary.read(['array', 'uint8', 32]);
 
 			byte = this.binary.read('uint8');
 			data.liftChainSpeed = (byte >> 3) * 1.6;
