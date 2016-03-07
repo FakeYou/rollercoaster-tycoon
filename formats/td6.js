@@ -86,7 +86,9 @@ var config = {
 		read: function() {
 			var data = {};
 
-			data.segment = this.binary.read('uint8');
+			data.address = this.binary.tell();
+
+			data.segment = this.binary.read('uint8').toString(16);
 			var qualifier = this.binary.read('uint8');
 			data.qualifier = qualifier;
 

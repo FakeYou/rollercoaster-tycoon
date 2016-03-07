@@ -33,8 +33,6 @@ loadRLE(path.resolve(__dirname, '../resources/tracks/wooden-simple-elevation.td6
 		return console.log(err);
 	}
 
-	// console.log(result.length);
-
 	var jbin = new jBinary(256*256, RLEFormat);
 	jbin.writeAll(result);
 
@@ -47,12 +45,21 @@ loadRLE(path.resolve(__dirname, '../resources/tracks/wooden-simple-elevation.td6
 	i += 2;
 
 	var buffer = new Buffer(i);
+	buffer.fill(0);
 	jbin.view.buffer.copy(buffer, 0, 0, i);
 
 	var checksum = new jBinary(4, ChecksumFormat);
 	checksum.writeAll(buffer);
 
+	console.log(i + 4);
+
+	var final = new Buffer(i + 4);
+	final.fill(0);
+	buffer.copy(final)
+	console.log(final);
+	checksum.view.buffer.copy(final, i);
+
 	console.log(checksum);
 
-	// fs.writeFileSync(path.resolve(__dirname, '../temp/test.td6'), jbin.view.buffer, 'binary');
+	fs.writeFileSync(path.resolve(__dirname, '../temp/mod.td6'), final, 'binary');
 });
